@@ -76,7 +76,7 @@ runs:
           for coauthor_pattern in "${LLM_COAUTHOR_PATTERNS[@]}"; do
             if echo "$msg" | grep -iqE "$coauthor_pattern"; then
               short=$(git show -s --format="%h" "$commit")
-              FOUND_COMMITS="${FOUND_COMMITS}\n- \`${short}\` ${subject} (co-author matched: \`${coauthor_pattern}\`)"
+              FOUND_COMMITS="${FOUND_COMMITS}\n- [\`${short}\`](https://github.com/${REPO}/commit/${commit}) ${subject} (co-author matched: \`${coauthor_pattern}\`)"
               FOUND_ANY=true
               break
             fi
@@ -86,7 +86,7 @@ runs:
           author_pattern=$(IFS='|'; echo "${LLM_AUTHOR_PATTERNS[*]}")
           if echo "$author" | grep -iqE "$author_pattern"; then
             short=$(git show -s --format="%h" "$commit")
-            FOUND_COMMITS="${FOUND_COMMITS}\n- \`${short}\` ${subject} (author matched: \`${author}\`)"
+            FOUND_COMMITS="${FOUND_COMMITS}\n- [\`${short}\`](https://github.com/${REPO}/commit/${commit}) ${subject} (author matched: \`${author}\`)"
             FOUND_ANY=true
           fi
         done < <(git log --format="%H" "${BASE_SHA}..${HEAD_SHA}")
